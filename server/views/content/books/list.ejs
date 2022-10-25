@@ -4,10 +4,8 @@
             <h1>
                 <%= title %>
             </h1>
-            <!-- ------------------------ -->
-            <!-- FIX THE ADD BUTTON BELOW -->
-            <!-- ------------------------ -->
-            <a href="" class="btn btn-primary" role="button">
+            <!-- ADD BUTTON -->
+            <a href="/books/add" class="btn btn-primary" role="button">
                 <i class="fas fa-plus-circle"></i> Add a Book</a>
             <br>
             <table class="table table-bordered table-striped table-hover">
@@ -42,14 +40,15 @@
                             <%= books[count].price %>
                         </td>
                         <td class="text-center col-1">
-                            <!-- ------------------------ -->
-                            <!-- ADD the EDIT BUTTON HERE -->
-                            <!-- ------------------------ -->
+                            <!-- EDIT BUTTON-->
+                            <a href="/books/edit<%=bContacts[count]._id %>" class="btn btn-dark btn-sm">
+                                <i class="fas fa-pencil-alt">Edit</i>
+
                         </td>
                         <td class="text-center col-1">
-                            <!-- ------------------------ -->
-                            <!-- ADD the DELETE BUTTON HERE -->
-                            <!-- ------------------------ -->
+                            <!-- DELETE BUTTON -->
+                            <a href="/books/delete/<%=bContacts[count]._id %>" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt">Delete</i>
                         </td>
                     </tr>
                     <% } %>
