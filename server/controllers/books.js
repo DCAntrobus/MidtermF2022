@@ -3,7 +3,7 @@ import booksModel from '../models/books.js';
 
 /* GET books List page. READ */
 export function displayBookList(req, res, next) {
-    // find all books in the books collection
+    // Checks for errors if no errors renders the display booklist page 
     booksModel.find((err, booksCollection) => {
         if (err) {
             console.error(err);
@@ -16,9 +16,8 @@ export function displayBookList(req, res, next) {
 //  GET the Book Details page in order to add a new Book
 export function displayAddPage(req, res, next) {
 
-    /*****************
-    * ADD CODE HERE *
-    *****************/
+    /*Renders displayAdd page(shows page output)*/
+
     res.render('index', { title: 'Add Book information', page: 'books/add', books: {} });
 
 }
@@ -26,9 +25,7 @@ export function displayAddPage(req, res, next) {
 // POST process the Book Details page and create a new Book - CREATE
 export function processAddPage(req, res, next) {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+    /* Creates new book collection*/
     let newBook = booksModel({
         name: req.body.name,
         author: req.body.author,
@@ -37,6 +34,7 @@ export function processAddPage(req, res, next) {
         price: req.body.price
 
     });
+    //Checks for errors, creates book collection, no errors redirects to /books/list
     booksModel.create(newBook, (err, Books) => {
         if (err) {
             console.error(err);
@@ -48,28 +46,26 @@ export function processAddPage(req, res, next) {
 // GET the Book Details page in order to edit an existing Book
 export function displayEditPage(req, res, next) {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+    /*id property of Book*/
     let id = req.params.id;
 
-    booksModel.findById(id, (err, bContacts) => {
+    // find books by id, checks if theres an error if not renders page /books/edit
+    booksModel.findById(id, (err, books) => {
         if (err) {
             console.error(err);
             res.end(err);
         }
-        res.render('index', { title: 'Edit Book information', page: 'books/edit', books: books });
+        res.render('index', { title: 'Edit Book information', page: '/books/edit', books: books });
     });
 
 }
 
 // POST - process the information passed from the details form and update the document
 export function processEditPage(req, res, next) {
-    /*****************
-    * ADD CODE HERE *
-    *****************/
-    let id = req.params.id;
+    /*Id property of Book */
 
+    let id = req.params.id;
+    // uses id of book to reference book that needs to be edited through booksModel
     let newBook = booksModel({
         _id: req.body.id,
         name: req.body.name,
@@ -79,22 +75,22 @@ export function processEditPage(req, res, next) {
         price: req.body.price
 
     });
+    // checks for error, updates book info through id, if no errors are caught redirects back to books/list 
     booksModel.updateOne({ _id: id }, newBook, (err, Books) => {
         if (err) {
             console.error(err);
             res.end(err);
         };
-        res.redirect('/books/list');
-    });
+        res.redirect('/books/list')
+    })
 }
 
 // GET - process the delete by user id
 export function processDelete(req, res, next) {
-    /*****************
-  * ADD CODE HERE *
-  *****************/
+    /*id property of book*/
     let id = req.params.id;
 
+    // removes book through id, checks for errors, no errors are caught redirects to books/list
     booksModel.remove({ _id: id }, (err) => {
         if (err) {
             console.error(err);
@@ -103,3 +99,4 @@ export function processDelete(req, res, next) {
         res.redirect('/books/list');
     });
 }
+
